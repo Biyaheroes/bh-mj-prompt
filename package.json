@@ -13,7 +13,7 @@
 		"build:support": "webpack --config webpack.loose.js --progress",
 		"build:deploy": "webpack --config webpack.compact.js --progress",
 		"build:transpile": "babel prompt.jsx --out-file prompt.js --source-maps",
-		"build": "npm run build:transpile && nnppm run build:support && npm run build:deploy",
+		"build": "npm run build:transpile && npm run build:support && npm run build:deploy",
 		"build:render": "npm run build:transpile && mjml render.mjml --output render.html",
 		"build:component": "webpack --config webpack.component.js --progress",
 		"build:test": "npm run build:render && npm run build:component && gulp --module test --bridge",
