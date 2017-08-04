@@ -212,8 +212,8 @@ if(content.locals) module.exports = content.locals;
 if(false) {
 	// When the styles change, update the <style> tags
 	if(!content.locals) {
-		module.hot.accept("!!./node_modules/css-loader/index.js??ref--1-1!./node_modules/sass-loader/lib/loader.js??ref--1-2!./node_modules/resolve-url-loader/index.js??ref--1-3!./prompt.scss", function() {
-			var newContent = require("!!./node_modules/css-loader/index.js??ref--1-1!./node_modules/sass-loader/lib/loader.js??ref--1-2!./node_modules/resolve-url-loader/index.js??ref--1-3!./prompt.scss");
+		module.hot.accept("!!./node_modules/css-loader/index.js??ref--1-1!./node_modules/resolve-url-loader/index.js??ref--1-2!./node_modules/sass-loader/lib/loader.js??ref--1-3!./prompt.scss", function() {
+			var newContent = require("!!./node_modules/css-loader/index.js??ref--1-1!./node_modules/resolve-url-loader/index.js??ref--1-2!./node_modules/sass-loader/lib/loader.js??ref--1-3!./prompt.scss");
 			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 			update(newContent);
 		});
@@ -232,7 +232,7 @@ exports = module.exports = __webpack_require__(361)(true);
 
 
 // module
-exports.push([module.i, ".bh-mj-prompt .message,\n.bh-mj-prompt .message > td > div {\n  padding-left: 20px !important;\n  padding-top: 20px !important;\n  padding-right: 20px !important;\n  padding-bottom: 20px !important; }\n", "", {"version":3,"sources":["/home/richeve/bh/bh-mj-prompt/prompt.scss"],"names":[],"mappings":"AAAA;;EAGE,8BAA6B;EAC7B,6BAA4B;EAC5B,+BAA8B;EAC9B,gCAA+B,EAC/B","file":"prompt.scss","sourcesContent":[".bh-mj-prompt {\n\t.message,\n\t.message > td > div {\n\t\tpadding-left: 20px !important;\n\t\tpadding-top: 20px !important;\n\t\tpadding-right: 20px !important;\n\t\tpadding-bottom: 20px !important;\n\t}\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, ".bh-mj-prompt .message,\n.bh-mj-prompt .message > td > div {\n  padding-left: 20px !important;\n  padding-top: 20px !important;\n  padding-right: 20px !important;\n  padding-bottom: 20px !important;\n}\n\n", "", {"version":3,"sources":["/home/richeve/bh/bh-mj-prompt/prompt.scss"],"names":[],"mappings":"AACC;;EAEC,8BAAA;EACA,6BAAA;EACA,+BAAA;EACA,gCAAA;CAAD","file":"prompt.scss","sourcesContent":[".bh-mj-prompt {\n\t.message,\n\t.message > td > div {\n\t\tpadding-left: 20px !important;\n\t\tpadding-top: 20px !important;\n\t\tpadding-right: 20px !important;\n\t\tpadding-bottom: 20px !important;\n\t}\n}\n"],"sourceRoot":""}]);
 
 // exports
 
