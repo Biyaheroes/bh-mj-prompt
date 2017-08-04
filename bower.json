@@ -1,33 +1,33 @@
 {
-  "name": "bh-mj-prompt",
-  "version": "0.1.0",
-  "description": "Biyaheroes MJML Prompt Component.",
-  "main": "prompt.deploy.js",
-  "support": "prompt.support.js",
-  "authors": [
-    "Biyaheroes Developers <developers@biyaheroes.com>",
-    "Robot Biyaheroes <robot@biyaheroes.com>",
-    "Richeve S. Bebedor <richeve.bebedor@gmail.com>"
-  ],
-  "license": "MIT",
-  "keywords": [
-    "biyaheroes",
-    "mjml",
-    "prompt",
-    "component",
-    "bh-mj-prompt"
-  ],
-  "homepage": "https://github.com/Biyaheroes/bh-mj-prompt",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
-  "dependencies": {
-    "jquery": "^3.2.1",
-    "react": "^15.6.1",
-    "wichevr": "^0.12.0"
-  }
+	"name": "bh-mj-prompt",
+	"version": "0.2.0",
+	"description": "Biyaheroes MJML Prompt Component.",
+	"main": "prompt.deploy.js",
+	"support": "prompt.module.jsx",
+	"authors": [
+		"Biyaheroes Developers <developers@biyaheroes.com>",
+		"Robot Biyaheroes <robot@biyaheroes.com>",
+		"Richeve S. Bebedor <richeve.bebedor@gmail.com>"
+	],
+	"license": "MIT",
+	"keywords": [
+		"biyaheroes",
+		"mjml",
+		"prompt",
+		"component",
+		"bh-mj-prompt"
+	],
+	"homepage": "https://github.com/Biyaheroes/bh-mj-prompt",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"dependencies": {
+		"jquery": "^3.2.1",
+		"react": "^15.6.1",
+		"wichevr": "^0.14.0"
+	}
 }

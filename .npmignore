@@ -1,0 +1,12 @@
+.babelrc
+gulpfile.js
+*.sh
+*.html
+*.map
+*.png
+component*
+render*
+report.*
+test.*
+wdio.*
+webpack.*

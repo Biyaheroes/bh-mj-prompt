@@ -1,126 +1,177 @@
-require( "graceful-fs" ).gracefulify( require( "fs" ) );
+"use strict";
 
 const babel = require( "gulp-babel" );
 const changed = require( "gulp-changed" );
-const child = require( "child_process" );
 const debug = require( "gulp-debug" );
-const del = require( "del" );
 const gulp = require( "gulp" );
 const plumber = require( "gulp-plumber" );
 const rename = require( "gulp-rename" );
+const replace = require( "gulp-replace" );
 const sourcemap = require( "gulp-sourcemaps" );
-const sass = require( "gulp-sass" );
-const uglify = require( "gulp-uglify" );
-const watch = require( "gulp-watch" );
-const vinylPath = require( "vinyl-paths" );
+const yargs = require( "yargs" );
 
-const mode = process.env.NODE_ENV;
-console.log( `gulp mode: ${ mode }` );
+const clientPattern = /\/\/\:\s*\@client\:(.+?|[^]+?)\/\/\:\s*\@end\-client/gm;
+const negateClientPattern = /\/\/\:\s*\@\!client\:(.+?|[^]+?)\/\/\:\s*\@end\-client/gm;
+const serverPattern = /\/\/\:\s*\@server\:(.+?|[^]+?)\/\/\:\s*\@end\-server/gm;
+const negateServerPattern = /\/\/\:\s*\@\!server\:(.+?|[^]+?)\/\/\:\s*\@end\-server/gm;
+const bridgePattern = /\/\/\:\s*\@bridge\:(.+?|[^]+?)\/\/\:\s*\@end\-bridge/gm;
+const negateBridgePattern = /\/\/\:\s*\@\!bridge\:(.+?|[^]+?)\/\/\:\s*\@end\-bridge/gm;
+const visualPattern = /\/\/\:\s*\@visual\:(.+?|[^]+?)\/\/\:\s*\@end\-visual/gm;
+const negateVisualPattern = /\/\/\:\s*\@\!visual\:(.+?|[^]+?)\/\/\:\s*\@end\-visual/gm;
+const ignorePattern = /\/\/\:\s*\@ignore\:(.+?|[^]+?)\/\/\:\s*\@end\-ignore/gm;
 
-gulp.task( "style", function styleTask( ){
-	del.sync( "detail.css" );
+const ignoreOpenPattern = /\/\/\:\s*\@ignore\:/gm;
+const ignoreOpenReplace = "//: @ignore:\n/*";
+const ignoreOpenCommentPattern = /\/\/\:\s*\@ignore\:\s*\n\s*\/\*/gm;
+const ignoreOpenCommentReplace = "//: @ignore:";
+const ignoreClosePattern = /\/\/\:\s*\@end\-ignore/gm;
+const ignoreCloseReplace = "*/\n//: @end-ignore";
+const ignoreCloseCommentPattern = /\*\/\s*\n\s*\/\/\:\s*\@end\-ignore/gm;
+const ignoreCloseCommentReplace = "//: @end-ignore";
 
-	let style = [
-		"*.scss",
-		"!./node_modules/**",
-		"!./bower_components/**",
-		"!.*"
-	];
+let parameter = yargs
+	.boolean( "client" )
+	.boolean( "server" )
+	.boolean( "bridge" )
+	.boolean( "visual" )
+	.boolean( "jsx" )
+	.boolean( "all" )
+	.coerce( "module", ( name ) => name.split( /\,/ ) )
+	.argv
 
-	if( mode === "production" ){
-		style.push( "!**/*test*.scss" );
-	}
+let list = parameter.module;
 
-	return gulp.src( style )
+gulp.task( "server", function formatServer( ){
+	return gulp.src( list.map( ( name ) => `${ name }.module.js` ) )
 		.pipe( plumber( ) )
-		.pipe( changed( "./", { "extension": ".css" } ) )
-		.pipe( debug( { "title": "File:" } ) )
-		.pipe( sourcemap.init( ) )
-		.pipe( sass( { "outputStyle": "compressed" } ).on( "error", sass.logError ) )
-		.pipe( sourcemap.write( "./" ) )
+		.pipe( debug( { "title": "Server File:" } ) )
+		.pipe( rename( ( path ) => {
+			path.basename = path.basename.replace( ".module", "" );
+			return path;
+		} ) )
+		.pipe( replace( negateServerPattern, "" ) )
+		.pipe( replace( clientPattern, "" ) )
+		.pipe( replace( bridgePattern, "" ) )
+		.pipe( replace( visualPattern, "" ) )
+		.pipe( changed( "./", {
+			"hasChanged": changed.compareContents
+		} ) )
+		.pipe( debug( { "title": "Server File Done:" } ) )
 		.pipe( gulp.dest( "./" ) );
 } );
 
-gulp.task( "script", function scriptTask( ){
-	let script = [
-		"*.jsx",
-		"./*/*.jsx",
-		"!./node_modules/**",
-		"!./bower_components/**",
-		"!.*"
-	];
-
-	if( mode === "production" ){
-		script.push( "!**/*test*.jsx" );
-	}
-
-	return gulp.src( script )
+gulp.task( "client", function formatClient( ){
+	return gulp.src( list.map( ( name ) => `${ name }.module.js` ) )
 		.pipe( plumber( ) )
-		.pipe( changed( "./", { "extension": ".js" } ) )
-		.pipe( debug( { "title": "File:" } ) )
+		.pipe( debug( { "title": "Client File:" } ) )
+		.pipe( rename( ( path ) => {
+			path.basename = path.basename.replace( ".module", ".support" );
+			return path;
+		} ) )
+		.pipe( replace( negateClientPattern, "" ) )
+		.pipe( replace( serverPattern, "" ) )
+		.pipe( replace( bridgePattern, "" ) )
+		.pipe( replace( visualPattern, "" ) )
 		.pipe( sourcemap.init( ) )
 		.pipe( babel( ) )
-		.pipe( uglify( {
-			"compress": {
-				"keep_fargs": true,
-				"keep_fnames": true,
-				"warnings": false
-			},
-			"sourceMap": true,
-			"mangle": false
-		} ) )
-		.pipe( rename( { "extname": ".js" } ) )
 		.pipe( sourcemap.write( "./" ) )
+		.pipe( changed( "./", {
+			"hasChanged": changed.compareContents,
+		} ) )
+		.pipe( debug( { "title": "Client File Done:" } ) )
 		.pipe( gulp.dest( "./" ) );
 } );
 
-gulp.task( "default", [ "style", "script" ] );
-
-gulp.task( "watch", function watchTask( ){
-	let state = "idle";
-
-	let rebuild = ( ) => {
-		if( state == "running" ){
-			return;
-		}
-
-		state = "running";
-
-		child.execSync( "npm run test", { "cwd": process.cwd( ), "stdio": [ 0, 1, 2 ] } );
-
-		state = "idle";
-	};
-
-	rebuild( );
-
-	return watch( [
-		"package.json",
-		"bower.json",
-		"test.html",
-		"*.jsx",
-		"./*/*.jsx",
-		"*.scss",
-		"./*/*.scss",
-		"!./node_modules/**",
-		"!./bower_components/**",
-		"!.*"
-	], { "readDelay": 1000 }, rebuild );
+gulp.task( "bridge", function formatBridge( ){
+	return gulp.src( list.map( ( name ) => `${ name }.module.js` ) )
+		.pipe( plumber( ) )
+		.pipe( debug( { "title": "Bridge File:" } ) )
+		.pipe( rename( ( path ) => {
+			path.basename = path.basename.replace( ".module", ".bridge" );
+			return path;
+		} ) )
+		.pipe( replace( negateBridgePattern, "" ) )
+		.pipe( replace( serverPattern, "" ) )
+		.pipe( replace( clientPattern, "" ) )
+		.pipe( replace( visualPattern, "" ) )
+		.pipe( replace( ignoreOpenPattern, ignoreOpenReplace ) )
+		.pipe( replace( ignoreClosePattern, ignoreCloseReplace ) )
+		.pipe( sourcemap.init( ) )
+		.pipe( babel( ) )
+		.pipe( sourcemap.write( "./" ) )
+		.pipe( replace( ignoreOpenCommentPattern, ignoreOpenCommentReplace ) )
+		.pipe( replace( ignoreCloseCommentPattern, ignoreCloseCommentReplace ) )
+		.pipe( changed( "./", {
+			"hasChanged": changed.compareContents,
+		} ) )
+		.pipe( debug( { "title": "Bridge File Done:" } ) )
+		.pipe( gulp.dest( "./" ) );
 } );
 
-gulp.task( "clean", function cleanTask( ){
-	return gulp.src( [
-		"*.js",
-		"*.css",
-		"./*/*.js",
-		"./*/*.css",
-		"*.log",
-		"!gulpfile.js",
-		"!webpack.config.js",
-		"!./node_modules/**",
-		"!./bower_components/**",
-		"!.*"
-	] )
-	.pipe( plumber( ) )
-	.pipe( debug( { "title": "File:" } ) )
-	.pipe( vinylPath( del ) );
+gulp.task( "visual", function formatVisual( ){
+	return gulp.src( list.map( ( name ) => `${ name }.module.js` ) )
+		.pipe( plumber( ) )
+		.pipe( debug( { "title": "Visual File:" } ) )
+		.pipe( rename( ( path ) => {
+			path.basename = path.basename.replace( ".module", ".visual" );
+			return path;
+		} ) )
+		.pipe( replace( negateVisualPattern, "" ) )
+		.pipe( replace( serverPattern, "" ) )
+		.pipe( replace( clientPattern, "" ) )
+		.pipe( replace( bridgePattern, "" ) )
+		.pipe( replace( ignoreOpenPattern, ignoreOpenReplace ) )
+		.pipe( replace( ignoreClosePattern, ignoreCloseReplace ) )
+		.pipe( sourcemap.init( ) )
+		.pipe( babel( ) )
+		.pipe( sourcemap.write( "./" ) )
+		.pipe( replace( ignoreOpenCommentPattern, ignoreOpenCommentReplace ) )
+		.pipe( replace( ignoreCloseCommentPattern, ignoreCloseCommentReplace ) )
+		.pipe( changed( "./", {
+			"hasChanged": changed.compareContents,
+		} ) )
+		.pipe( debug( { "title": "Visual File Done:" } ) )
+		.pipe( gulp.dest( "./" ) );
 } );
+
+gulp.task( "jsx", function formatJSX( ){
+	return gulp.src( list.map( ( name ) => `${ name }.module.jsx` ) )
+		.pipe( plumber( ) )
+		.pipe( debug( { "title": "JSX File:" } ) )
+		.pipe( rename( ( path ) => {
+			path.basename = path.basename.replace( ".module", "" );
+			return path;
+		} ) )
+		.pipe( replace( ignorePattern, "" ) )
+		.pipe( changed( "./", {
+			"hasChanged": changed.compareContents
+		} ) )
+		.pipe( debug( { "title": "JSX File Done:" } ) )
+		.pipe( gulp.dest( "./" ) );
+} );
+
+let defaultTask = [ ];
+if( parameter.all ){
+	defaultTask.push( "server" );
+	defaultTask.push( "client" );
+
+}else if( parameter.server ){
+	defaultTask.push( "server" );
+
+}else if( parameter.client ){
+	defaultTask.push( "client" );
+
+}else if( parameter.bridge ){
+	defaultTask.push( "bridge" );
+
+}else if( parameter.visual ){
+	defaultTask.push( "visual" );
+
+}else if( parameter.jsx ){
+	defaultTask.push( "jsx" );
+
+}else{
+	throw new Error( "no task specified" );
+}
+
+gulp.task( "default", defaultTask );
