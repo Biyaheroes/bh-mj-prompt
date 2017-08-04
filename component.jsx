@@ -4,7 +4,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Prompt from "./prompt.js";
+import Prompt from "./prompt.module.jsx";
 
 ReactDOM.render(
 	<Prompt

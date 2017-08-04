@@ -232,7 +232,7 @@ exports = module.exports = __webpack_require__(361)(true);
 
 
 // module
-exports.push([module.i, ".bh-mj-prompt .message,\n.bh-mj-prompt .message > td > div {\n  padding-left: 20px !important;\n  padding-top: 20px !important;\n  padding-right: 20px !important;\n  padding-bottom: 20px !important;\n}\n\n", "", {"version":3,"sources":["/home/richeve/bh/bh-mj-prompt/prompt.scss"],"names":[],"mappings":"AACC;;EAEC,8BAAA;EACA,6BAAA;EACA,+BAAA;EACA,gCAAA;CAAD","file":"prompt.scss","sourcesContent":[".bh-mj-prompt {\n\t.message,\n\t.message > td > div {\n\t\tpadding-left: 20px !important;\n\t\tpadding-top: 20px !important;\n\t\tpadding-right: 20px !important;\n\t\tpadding-bottom: 20px !important;\n\t}\n}\n"],"sourceRoot":""}]);
+exports.push([module.i, ".bh-mj-prompt .message > td > div {\n  padding-left: 20px !important;\n  padding-top: 20px !important;\n  padding-right: 20px !important;\n  padding-bottom: 20px !important;\n}\n\n", "", {"version":3,"sources":["/home/richeve/bh/bh-mj-prompt/prompt.scss"],"names":[],"mappings":"AAAA;EAEE,8BAAA;EACA,6BAAA;EACA,+BAAA;EACA,gCAAA;CAAD","file":"prompt.scss","sourcesContent":[".bh-mj-prompt {\n\t.message > td > div {\n\t\tpadding-left: 20px !important;\n\t\tpadding-top: 20px !important;\n\t\tpadding-right: 20px !important;\n\t\tpadding-bottom: 20px !important;\n\t}\n}\n"],"sourceRoot":""}]);
 
 // exports
 
