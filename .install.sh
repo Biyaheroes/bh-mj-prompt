@@ -34,8 +34,8 @@ looks-same \
 mjml \
 mocha \
 nchunk \
+node-sass \
 plough \
-postcss-loader \
 resolve-url-loader \
 sass-loader \
 scrshot \

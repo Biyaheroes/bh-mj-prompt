@@ -29,17 +29,17 @@
               
               	@module-configuration:
               		{
-              			"package": "detail",
-              			"path": "detail/detail.jsx",
-              			"file": "detail.jsx",
-              			"module": "detail",
+              			"package": "prompt",
+              			"path": "prompt/prompt.jsx",
+              			"file": "prompt.jsx",
+              			"module": "prompt",
               			"author": "Biyaheroes Developers",
               			"contributors": [
               				"Robot Biyaheroes <robot@biyaheroes.com>",
               				"Richeve S. Bebedor <richeve.bebedor@gmail.com>"
               			],
               			"eMail": "developers@biyaheroes.com",
-              			"repository": "https://github.com/Biyaheroes/bh-mj-small-detail.git",
+              			"repository": "https://github.com/Biyaheroes/bh-mj-prompt.git",
               			"global": true
               		}
               	@end-module-configuration
@@ -61,7 +61,11 @@
               	@end-include
               */Object.defineProperty(exports, "__esModule", { value: true });var _jsx2 = require("babel-runtime/helpers/jsx");var _jsx3 = _interopRequireDefault(_jsx2);var _getPrototypeOf = require("babel-runtime/core-js/object/get-prototype-of");var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);var _createClass2 = require("babel-runtime/helpers/createClass");var _createClass3 = _interopRequireDefault(_createClass2);var _possibleConstructorReturn2 = require("babel-runtime/helpers/possibleConstructorReturn");var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);var _inherits2 = require("babel-runtime/helpers/inherits");var _inherits3 = _interopRequireDefault(_inherits2);var _class;
 
+
+
+var _jquery = require("jquery");var _jquery2 = _interopRequireDefault(_jquery);
 var _react = require("react");var _react2 = _interopRequireDefault(_react);
+var _reactDom = require("react-dom");var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _mjmlCore = require("mjml-core");
 
@@ -80,6 +84,7 @@ var endingTag = false;
 var defaultMJMLDefinition = {
 	"content": "",
 	"attributes": {
+		"name": "",
 		"background-color": "white",
 		"foreground-color": "black",
 		"side-color": "gray",
@@ -88,30 +93,75 @@ var defaultMJMLDefinition = {
 
 
 
-Prompt = (0, _mjmlCore.MJMLElement)(_class = function (_Component) {(0, _inherits3.default)(Prompt, _Component);function Prompt() {(0, _classCallCheck3.default)(this, Prompt);return (0, _possibleConstructorReturn3.default)(this, (Prompt.__proto__ || (0, _getPrototypeOf2.default)(Prompt)).apply(this, arguments));}(0, _createClass3.default)(Prompt, [{ key: "render", value: function render()
-		{var
-			mjAttribute = this.props.mjAttribute;var _props =
-
-			this.props,backgroundColor = _props.backgroundColor,foregroundColor = _props.foregroundColor,sideColor = _props.sideColor,message = _props.message;
-
-			return _react2.default.createElement(_mjmlSection2.default,
-				this.props, (0, _jsx3.default)(_mjmlColumn2.default, { "background-color":
+Prompt = (0, _mjmlCore.MJMLElement)(_class = function (_PureComponent) {(0, _inherits3.default)(Prompt, _PureComponent);function Prompt() {(0, _classCallCheck3.default)(this, Prompt);return (0, _possibleConstructorReturn3.default)(this, (Prompt.__proto__ || (0, _getPrototypeOf2.default)(Prompt)).apply(this, arguments));}(0, _createClass3.default)(Prompt, [{ key: "resolve", value: function resolve(
+		property) {var
+			mjAttribute = property.mjAttribute;var
 
 
-					(0, _wichevr2.default)(backgroundColor, mjAttribute("background-color")), "border-left": "10px solid " +
-					(0, _wichevr2.default)(sideColor, mjAttribute("side-color")) }, void 0, (0, _jsx3.default)(_mjmlText2.default, { color:
+			name =
 
 
-					(0, _wichevr2.default)(foregroundColor, mjAttribute("foreground-color")), padding:
-					"20px 20px 20px 20px", "font-size":
-					"15px", "letter-spacing":
-					"0.5px" }, void 0,
+			property.name,message = property.message,backgroundColor = property.backgroundColor,foregroundColor = property.foregroundColor,sideColor = property.sideColor;
 
-				(0, _wichevr2.default)(message, mjAttribute("message")))));
+			return {
+				"name": (0, _wichevr2.default)(name, mjAttribute("name")),
+				"message": (0, _wichevr2.default)(message, mjAttribute("message")),
+				"backgroundColor": (0, _wichevr2.default)(backgroundColor, mjAttribute("background-color")),
+				"foregroundColor": (0, _wichevr2.default)(foregroundColor, mjAttribute("foreground-color")),
+				"sideColor": (0, _wichevr2.default)(sideColor, mjAttribute("side-color")) };
+
+		} }, { key: "componentWillMount", value: function componentWillMount()
+
+		{
+			this.setState({ "data": this.resolve(this.props) });
+		} }, { key: "componentWillReceiveProps", value: function componentWillReceiveProps(
+
+		property) {
+			this.setState({ "data": this.resolve(property) });
+		} }, { key: "render", value: function render()
+
+		{var _state$data =
+			this.state.data,message = _state$data.message,backgroundColor = _state$data.backgroundColor,foregroundColor = _state$data.foregroundColor,sideColor = _state$data.sideColor;
+
+			return (
+				_react2.default.createElement(_mjmlSection2.default,
+					this.props, (0, _jsx3.default)(_mjmlColumn2.default, { "background-color":
+
+
+						backgroundColor, "border-left": "10px solid " +
+						sideColor }, void 0, (0, _jsx3.default)(_mjmlText2.default, { "css-class":
+
+
+						"message", color:
+						foregroundColor, padding:
+						"20px 20px 20px 20px", "font-size":
+						"15px", "letter-spacing":
+						"0.5px" }, void 0,
+
+					message))));
 
 
 
-		} }]);return Prompt;}(_react.Component)) || _class;
+
+		} }, { key: "componentDidMount", value: function componentDidMount()
+
+		{
+			(0, _jquery2.default)(_reactDom2.default.findDOMNode(this)).
+			addClass("bh-mj-prompt").
+			addClass(this.state.data.name).
+			append("\n\t\t\t\t<link\n\t\t\t\t\tclass=\"bh-mj-prompt style\"\n\t\t\t\t\trel=\"stylesheet\"\n\t\t\t\t\ttype=\"text/css\"\n\t\t\t\t\thref=\"https://unpkg.com/bh-mj-prompt/prompt.css\"\n\t\t\t\t/>\n\t\t\t");
+
+
+
+
+
+
+
+		} }, { key: "componentWillUnmount", value: function componentWillUnmount()
+
+		{
+			(0, _jquery2.default)(".bh-mj-prompt.style").remove();
+		} }]);return Prompt;}(_react.PureComponent)) || _class;
 
 
 Prompt.tagName = tagName;

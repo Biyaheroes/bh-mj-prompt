@@ -1,0 +1,132 @@
+{
+	"state": {
+		"passed": 2,
+		"failed": 0,
+		"skipped": 0
+	},
+	"start": "2017-08-02T11:31:22.462Z",
+	"end": "2017-08-02T11:32:13.025Z",
+	"capabilities": {
+		"browserName": "chrome",
+		"chromeOptions": {
+			"args": [
+				"disable-gpu",
+				"headless"
+			]
+		},
+		"proxy": null
+	},
+	"host": "127.0.0.1",
+	"port": 4444,
+	"baseUrl": "http://localhost",
+	"framework": "mocha",
+	"mochaOpts": {
+		"timeout": 10000,
+		"ui": "bdd"
+	},
+	"suites": [
+		{
+			"name": "bh-mj-prompt",
+			"duration": 0,
+			"start": "2017-08-02T11:32:12.568Z",
+			"tests": [],
+			"hooks": []
+		},
+		{
+			"name": "bh-mj-prompt",
+			"duration": 119,
+			"start": "2017-08-02T11:32:12.569Z",
+			"end": "2017-08-02T11:32:12.688Z",
+			"tests": [],
+			"hooks": [
+				{
+					"start": "2017-08-02T11:32:12.570Z",
+					"end": "2017-08-02T11:32:12.570Z",
+					"duration": 0,
+					"title": "\"before each\" hook",
+					"associatedSuite": "bh-mj-prompt",
+					"associatedTest": "should be equal"
+				},
+				{
+					"start": "2017-08-02T11:32:12.577Z",
+					"end": "2017-08-02T11:32:12.577Z",
+					"duration": 0,
+					"title": "\"after each\" hook",
+					"associatedSuite": "bh-mj-prompt",
+					"associatedTest": "should be equal"
+				},
+				{
+					"start": "2017-08-02T11:32:12.595Z",
+					"end": "2017-08-02T11:32:12.596Z",
+					"duration": 1,
+					"title": "\"before each\" hook",
+					"associatedSuite": "bh-mj-prompt",
+					"associatedTest": "should be equal"
+				},
+				{
+					"start": "2017-08-02T11:32:12.598Z",
+					"end": "2017-08-02T11:32:12.598Z",
+					"duration": 0,
+					"title": "\"after each\" hook",
+					"associatedSuite": "bh-mj-prompt",
+					"associatedTest": "should be equal"
+				},
+				{
+					"start": "2017-08-02T11:32:12.806Z",
+					"end": "2017-08-02T11:32:12.808Z",
+					"duration": 2,
+					"title": "\"after all\" hook",
+					"associatedSuite": "bh-mj-prompt"
+				}
+			]
+		},
+		{
+			"name": "render based comparison",
+			"duration": 22,
+			"start": "2017-08-02T11:32:12.569Z",
+			"end": "2017-08-02T11:32:12.591Z",
+			"tests": [
+				{
+					"name": "should be equal",
+					"start": "2017-08-02T11:32:12.569Z",
+					"end": "2017-08-02T11:32:12.576Z",
+					"duration": 7,
+					"state": "pass"
+				}
+			],
+			"hooks": [
+				{
+					"start": "2017-08-02T11:32:12.589Z",
+					"end": "2017-08-02T11:32:12.590Z",
+					"duration": 1,
+					"title": "\"after all\" hook",
+					"associatedSuite": "render based comparison"
+				}
+			]
+		},
+		{
+			"name": "component based comparison",
+			"duration": 13,
+			"start": "2017-08-02T11:32:12.591Z",
+			"end": "2017-08-02T11:32:12.604Z",
+			"tests": [
+				{
+					"name": "should be equal",
+					"start": "2017-08-02T11:32:12.594Z",
+					"end": "2017-08-02T11:32:12.597Z",
+					"duration": 3,
+					"state": "pass"
+				}
+			],
+			"hooks": [
+				{
+					"start": "2017-08-02T11:32:12.603Z",
+					"end": "2017-08-02T11:32:12.604Z",
+					"duration": 1,
+					"title": "\"after all\" hook",
+					"associatedSuite": "component based comparison"
+				}
+			]
+		}
+	]
+}

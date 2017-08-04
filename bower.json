@@ -1,9 +1,9 @@
 {
 	"name": "bh-mj-prompt",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Biyaheroes MJML Prompt Component.",
 	"main": "prompt.deploy.js",
-	"support": "prompt.support.js",
+	"support": "prompt.module.jsx",
 	"authors": [
 		"Biyaheroes Developers <developers@biyaheroes.com>",
 		"Robot Biyaheroes <robot@biyaheroes.com>",
@@ -24,5 +24,10 @@
 		"bower_components",
 		"test",
 		"tests"
-	]
+	],
+	"dependencies": {
+		"jquery": "^3.2.1",
+		"react": "^15.6.1",
+		"wichevr": "^0.14.0"
+	}
 }

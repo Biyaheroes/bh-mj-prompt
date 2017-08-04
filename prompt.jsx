@@ -29,17 +29,17 @@
 
 	@module-configuration:
 		{
-			"package": "detail",
-			"path": "detail/detail.jsx",
-			"file": "detail.jsx",
-			"module": "detail",
+			"package": "prompt",
+			"path": "prompt/prompt.jsx",
+			"file": "prompt.jsx",
+			"module": "prompt",
 			"author": "Biyaheroes Developers",
 			"contributors": [
 				"Robot Biyaheroes <robot@biyaheroes.com>",
 				"Richeve S. Bebedor <richeve.bebedor@gmail.com>"
 			],
 			"eMail": "developers@biyaheroes.com",
-			"repository": "https://github.com/Biyaheroes/bh-mj-small-detail.git",
+			"repository": "https://github.com/Biyaheroes/bh-mj-prompt.git",
 			"global": true
 		}
 	@end-module-configuration
@@ -61,7 +61,11 @@
 	@end-include
 */
 
-import React, { Component } from "react";
+
+
+import $ from "jquery";
+import React, { PureComponent } from "react";
+import ReactDOM from "react-dom"
 
 import { MJMLElement } from "mjml-core";
 
@@ -80,6 +84,7 @@ const endingTag = false;
 const defaultMJMLDefinition = {
 	"content": "",
 	"attributes": {
+		"name": "",
 		"background-color": "white",
 		"foreground-color": "black",
 		"side-color": "gray",
@@ -88,29 +93,74 @@ const defaultMJMLDefinition = {
 };
 
 @MJMLElement
-class Prompt extends Component {
+class Prompt extends PureComponent {
+	resolve( property ){
+		const { mjAttribute } = property;
+
+		let {
+			name,
+			message,
+			backgroundColor, foregroundColor, sideColor
+		} = property;
+
+		return {
+			"name": wichevr( name, mjAttribute( "name" ) ),
+			"message": wichevr( message, mjAttribute( "message" ) ),
+			"backgroundColor": wichevr( backgroundColor, mjAttribute( "background-color" ) ),
+			"foregroundColor": wichevr( foregroundColor, mjAttribute( "foreground-color" ) ),
+			"sideColor": wichevr( sideColor, mjAttribute( "side-color" ) )
+		};
+	}
+
+	componentWillMount( ){
+		this.setState( { "data": this.resolve( this.props ) } );
+	}
+
+	componentWillReceiveProps( property ){
+		this.setState( { "data": this.resolve( property ) } );
+	}
+
 	render( ){
-		const { mjAttribute } = this.props;
+		let { message, backgroundColor, foregroundColor, sideColor } = this.state.data;
 
-		let { backgroundColor, foregroundColor, sideColor, message } = this.props;
-
-		return ( <Section
-					{ ...this.props }
+		return (
+			<Section
+				{ ...this.props }
+			>
+				<Column
+					background-color={ backgroundColor }
+					border-left={ `10px solid ${ sideColor }` }
 				>
-					<Column
-						background-color={ wichevr( backgroundColor, mjAttribute( "background-color" ) ) }
-						border-left={ `10px solid ${ wichevr( sideColor, mjAttribute( "side-color" ) ) }` }
+					<Text
+						css-class="message"
+						color={ foregroundColor }
+						padding="20px 20px 20px 20px"
+						font-size = "15px"
+						letter-spacing = "0.5px"
 					>
-						<Text
-							color = { wichevr( foregroundColor, mjAttribute( "foreground-color" ) ) }
-							padding="20px 20px 20px 20px"
-							font-size = "15px"
-							letter-spacing = "0.5px"
-						>
-							{ wichevr( message, mjAttribute( "message" ) ) }
-						</Text>
-					</Column>
-				</Section> );
+						{ message }
+					</Text>
+				</Column>
+			</Section>
+		);
+	}
+
+	componentDidMount( ){
+		$( ReactDOM.findDOMNode( this ) )
+			.addClass( "bh-mj-prompt" )
+			.addClass( this.state.data.name )
+			.append( `
+				<link
+					class="bh-mj-prompt style"
+					rel="stylesheet"
+					type="text/css"
+					href="https://unpkg.com/bh-mj-prompt/prompt.css"
+				/>
+			` );
+	}
+
+	componentWillUnmount( ){
+		$( ".bh-mj-prompt.style" ).remove( );
 	}
 }
 
