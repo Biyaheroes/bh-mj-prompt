@@ -1,6 +1,6 @@
 {
 	"name": "bh-mj-prompt",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"description": "Biyaheroes MJML Prompt Component.",
 	"main": "prompt.deploy.js",
 	"support": "prompt.module.jsx",

@@ -43,7 +43,6 @@ module.exports = function build( parameter ){
 			"rules": [
 				{
 					"test": /\.jsx$/,
-					"exclude": /(node_modules|bower_components)/,
 					"use": [ "babel-loader" ]
 				},
 

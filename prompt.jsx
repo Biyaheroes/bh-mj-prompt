@@ -50,7 +50,7 @@
 
 	@include:
 		{
-			"Component": "react.Component",
+			"PureComponent": "react.PureComponent",
 			"Column": "mjml-column",
 			"MJMLElement": "mjml-core",
 			"React": "react",
@@ -134,9 +134,9 @@ class Prompt extends PureComponent {
 					<Text
 						css-class="message"
 						color={ foregroundColor }
-						padding="20px 20px 20px 20px"
 						font-size = "15px"
 						letter-spacing = "0.5px"
+						padding="20px 20px 20px 20px"
 					>
 						{ message }
 					</Text>
