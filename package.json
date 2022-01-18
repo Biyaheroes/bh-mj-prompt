@@ -55,12 +55,12 @@
 	"dependencies": {
 		"babel-runtime": "^6.25.0",
 		"jquery": "^3.2.1",
-		"mjml": "^3.3.3",
-		"mjml-column": "^3.3.3",
-		"mjml-core": "^3.3.3",
-		"mjml-section": "^3.3.3",
-		"mjml-text": "^3.3.3",
-		"react": "^15.6.1",
+		"mjml": "^4.0.0",
+		"mjml-column": "^4.0.0",
+		"mjml-core": "^4.0.0",
+		"mjml-section": "^4.0.0",
+		"mjml-text": "^4.0.0",
+		"react": "^16.5.0",
 		"wichevr": "^0.14.0"
 	},
 	"devDependencies": {
