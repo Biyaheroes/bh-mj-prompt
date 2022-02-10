@@ -89,7 +89,7 @@
 		"looks-same": "^3.2.1",
 		"mocha": "^3.5.0",
 		"nchunk": "^0.0.0",
-		"node-sass": "^4.5.3",
+		"node-sass": "^7.0.0",
 		"plough": "^0.29.0",
 		"resolve-url-loader": "^2.1.0",
 		"sass-loader": "^6.0.6",
